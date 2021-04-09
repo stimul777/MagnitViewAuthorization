@@ -9,26 +9,77 @@
       
       <div class='wrapper-select'>
         <v-text-field
+          solo
           class = "text-field"
-          label="Введите логин"
-          outlined
-          dense
+          v-model.trim = "email"
+          :class = "{
+            invalidInput:
+              ($v.email.$dirty && !$v.email.required) ||
+              ($v.email.$dirty && !$v.email.email)
+          }"
+          label="Ваш ID"
         ></v-text-field>
 
         <v-text-field
+          solo
           class = "text-field"
-          label="Пароль"
-          outlined
-          dense
+          v-model.trim="password"
+          :class="{
+            invalidInput:
+              ($v.password.$dirty && !$v.password.required) ||
+              ($v.password.$dirty && !$v.password.minLength)
+          }"
+          label="Ваш пароль"
         ></v-text-field>
          
-        <v-btn class="btn-enter"> Войти </v-btn>
+        <v-btn class="btn-enter" :disabled="btnDisabled" @click="submitHandler()"> Войти </v-btn>
       </div>
-      <p>Забыли пароль или ID?</p>
+
+      <a>Забыли пароль или ID?</a>
     </v-container>
 </template>
 
 <script>
+import { email, required, minLength } from "vuelidate/lib/validators";
+
+export default {
+  name: "autorization",
+  data: () => ({
+    email: "",
+    password: "",
+    btnDisabled: true,
+  }),
+
+  validations: {
+    email: { email, required },
+    password: { required, minLength: minLength(6) }
+  },
+
+  methods: {
+    submitHandler() {
+      console.log('Данные отправлены!!!')
+    },
+
+    validatorInput() {
+      if (this.$v.$invalid) {
+            this.$v.$touch();
+            this.btnDisabled = true
+            return;
+      }
+       this.btnDisabled = false
+    }
+  },
+
+  watch: {
+    email() {
+     this.validatorInput()
+    },
+
+    password() {
+      this.validatorInput()
+    }
+  }
+}
 
 </script>
 
@@ -56,4 +107,13 @@
   color: #FFFFFF;
   background: #E30613 !important;
 }
+
+.invalidInput  {
+  border: 1px solid #E30613 !important;
+}
+
+.v-text-field.v-text-field--solo:not(.v-text-field--solo-flat)>.v-input__control>.v-input__slot {
+ box-shadow: none !important;
+}
+
 </style>
