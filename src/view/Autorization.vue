@@ -1,18 +1,9 @@
 <template>
-    <v-container class='wrapper' >
+    <v-container class="wrapper" >
       <img class="img-logo" src="../img/logo.svg" >
       <h2 class="h2-autorization"> Авторизация </h2>
 
-      <form class='wrapper-select'>
-
-        <v-progress-circular
-          class="loader"
-          :size="70"
-          :width="7"
-          indeterminate
-          v-show="loader"
-        ></v-progress-circular>
-
+      <form class="wrapper-select">
           <input
             class="text-field"
             placeholder="Ваш ID"
@@ -35,7 +26,16 @@
                 ($v.password.$dirty && !$v.password.minLength)
             }">
           
-          <v-btn class="btn-enter" :disabled="btnDisabled" @click="submitHandler()"> Войти </v-btn>
+          <v-btn class="btn-enter" :disabled="btnDisabled" @click="submitHandler()">
+           <p>Войти </p>
+            <v-progress-circular
+              class="loader"
+              :size="70"
+              :width="7"
+              indeterminate
+              v-show="loader"
+            ></v-progress-circular>
+           </v-btn>
 
           <a class="link-text" href="#"> Забыли пароль или ID? </a>
         </form>
@@ -51,7 +51,7 @@ export default {
     email: "",
     password: "",
     btnDisabled: true,
-    loader: true,
+    loader: false,
   }),
 
   validations: {
@@ -61,7 +61,9 @@ export default {
 
   methods: {
     submitHandler() {
-      console.log('Данные отправлены!!!')
+      console.log('\x1b[36m%s\x1b[0m','!!Данные отправлены на сервер!!')
+      this.loader = true
+      this.btnDisabled = true
     },
 
     validatorInput() {
@@ -94,6 +96,7 @@ export default {
 
 .wrapper-select{
   display: flex;
+  position: relative;
   flex-direction: column;
   align-items: center;
   align-content: center;
@@ -105,37 +108,22 @@ export default {
   outline:none;
   border-radius: 4px;
   border: 1px solid black;
-  width: 394px !important;
-  height: 48px !important;
+  width: 394px ;
+  height: 48px ;
 }
 
 .text-field:nth-child(2) {
-  margin-top: 16px !important;
-}
-
-
-.v-label.theme--light {
-  background-color: red !important;
-}
-
-
-.btn-enter {
-  margin-top: 24px !important;
-  width: 394px !important;
-  height: 48px !important;
-  color: #FFFFFF !important;
-  background: #E30613 !important;
+  margin-top: 16px;
 }
 
 .link-text{
   margin-top: 24px;
   color: #000 !important;
   text-decoration: none;
-  
 }
 
 .invalidInput  {
-  border: 1px solid #E30613 !important;
+  border: 1px solid #E30613;
 }
 
 .img-logo {
@@ -147,6 +135,16 @@ export default {
   margin-top: 24px;
   margin-bottom: 32px;
 }
+
+ /* CUSTOM ELEMENTS */
+.btn-enter {
+  margin-top: 24px !important;
+  width: 394px !important;
+  height: 48px !important;
+  color: #FFFFFF !important;
+  background: #E30613 !important;
+}
+
 
 .loader {
   position: absolute !important;
