@@ -1,41 +1,44 @@
 <template>
     <v-container class='wrapper' >
-      <h2> Авторизация </h2>
-      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M0 14.5349C0 10.6627 1.51145 7.01671 4.25839 4.26557C7.00282 1.51444 10.6416 0 14.5061 0H48V7.3862H14.5061C12.6134 7.3862 10.8247 8.13274 9.47131 9.48757C8.11665 10.8462 7.37159 12.6384 7.37159 14.5349L7.32769 26.9332C6.98526 30.226 4.508 32.8829 1.30448 33.373L0 33.5729V14.5349Z" fill="#E30613"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M0 48.0002V40.614H33.4939C35.3879 40.614 37.1753 39.8662 38.5274 38.5101C39.8808 37.1553 40.6272 35.3644 40.6272 33.4666L40.6359 21.6979C40.6359 18.194 43.2411 15.1538 46.6968 14.6272L48 14.4286V33.4666C48 37.3388 46.4886 40.9848 43.7416 43.7346C40.9972 46.4858 37.3584 48.0002 33.4939 48.0002H0Z" fill="#E30613"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M28.3645 33.5983V24.0504L23.9982 29.2762L19.632 24.0504V33.5983H13.8496V14.8066H19.3284L23.9982 20.8493L28.668 14.8066H34.1469V33.5983H28.3645Z" fill="#E30613"/>
-      </svg>
-      
-      <div class='wrapper-select'>
-        <v-text-field
-          solo
-          class = "text-field"
-          v-model.trim = "email"
-          :class = "{
-            invalidInput:
-              ($v.email.$dirty && !$v.email.required) ||
-              ($v.email.$dirty && !$v.email.email)
-          }"
-          label="Ваш ID"
-        ></v-text-field>
+      <img class="img-logo" src="../img/logo.svg" >
+      <h2 class="h2-autorization"> Авторизация </h2>
 
-        <v-text-field
-          solo
-          class = "text-field"
-          v-model.trim="password"
-          :class="{
-            invalidInput:
-              ($v.password.$dirty && !$v.password.required) ||
-              ($v.password.$dirty && !$v.password.minLength)
-          }"
-          label="Ваш пароль"
-        ></v-text-field>
-         
-        <v-btn class="btn-enter" :disabled="btnDisabled" @click="submitHandler()"> Войти </v-btn>
-      </div>
+      <form class='wrapper-select'>
 
-      <a>Забыли пароль или ID?</a>
+        <v-progress-circular
+          class="loader"
+          :size="70"
+          :width="7"
+          indeterminate
+          v-show="loader"
+        ></v-progress-circular>
+
+          <input
+            class="text-field"
+            placeholder="Ваш ID"
+            v-model.trim="email"
+            :class = "{
+              invalidInput:
+                ($v.email.$dirty && !$v.email.required) ||
+                ($v.email.$dirty && !$v.email.email)
+            }"
+          >
+          
+          <input
+            placeholder="Ваш пароль"
+            type="password"
+            class = "text-field"
+            v-model.trim="password"
+            :class="{
+              invalidInput:
+                ($v.password.$dirty && !$v.password.required) ||
+                ($v.password.$dirty && !$v.password.minLength)
+            }">
+          
+          <v-btn class="btn-enter" :disabled="btnDisabled" @click="submitHandler()"> Войти </v-btn>
+
+          <a class="link-text" href="#"> Забыли пароль или ID? </a>
+        </form>
     </v-container>
 </template>
 
@@ -48,6 +51,7 @@ export default {
     email: "",
     password: "",
     btnDisabled: true,
+    loader: true,
   }),
 
   validations: {
@@ -85,7 +89,7 @@ export default {
 
 <style scoped>
 .wrapper {
- border: 1px solid black;
+ margin-top: 10%;
 }
 
 .wrapper-select{
@@ -97,23 +101,56 @@ export default {
 }
 
 .text-field {
-  width: 394px;
-  height: 48px;
+  padding-left: 24px;
+  outline:none;
+  border-radius: 4px;
+  border: 1px solid black;
+  width: 394px !important;
+  height: 48px !important;
 }
 
+.text-field:nth-child(2) {
+  margin-top: 16px !important;
+}
+
+
+.v-label.theme--light {
+  background-color: red !important;
+}
+
+
 .btn-enter {
-  width: 394px;
-  height: 48px;
-  color: #FFFFFF;
+  margin-top: 24px !important;
+  width: 394px !important;
+  height: 48px !important;
+  color: #FFFFFF !important;
   background: #E30613 !important;
+}
+
+.link-text{
+  margin-top: 24px;
+  color: #000 !important;
+  text-decoration: none;
+  
 }
 
 .invalidInput  {
   border: 1px solid #E30613 !important;
 }
 
-.v-text-field.v-text-field--solo:not(.v-text-field--solo-flat)>.v-input__control>.v-input__slot {
- box-shadow: none !important;
+.img-logo {
+  height: 48px;
+  width: 48px;
+}
+
+.h2-autorization {
+  margin-top: 24px;
+  margin-bottom: 32px;
+}
+
+.loader {
+  position: absolute !important;
+  color: #E30613 !important;
 }
 
 </style>
